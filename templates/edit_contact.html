@@ -26,37 +26,149 @@
         <label class="form-label">Contact Type</label>
         <select class="form-select" id="contact_type" name="contact_type" required>
             <option value="College" {% if contact.contact_type == 'College' %}selected{% endif %}>College</option>
-            <option value="Department" {% if contact.contact_type == 'Department' %}selected{% endif %}>Department</option>
+            <option value="Department" {% if contact.contact_type == 'Department' or contact.contact_type == 'Course Coordinator' %}selected{% endif %}>Department</option>
         </select>
     </div>
 
-    <!-- Include remaining form fields from add_contact.html with value population -->
-    <!-- Add JavaScript from add_contact.html for dynamic behavior -->
+    <div class="mb-3">
+        <label class="form-label">Primary Contact</label>
+        <select class="form-select" id="primary_contact" name="primary_contact" {% if contact.contact_type != 'College' %}disabled{% endif %}>
+            <option value="no" {% if not contact.primary_contact %}selected{% endif %}>No</option>
+            <option value="yes" {% if contact.primary_contact %}selected{% endif %}>Yes</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">College</label>
+        <select class="form-select" id="college" name="college" required>
+            <option value="">Select College</option>
+            {% for college in colleges %}
+            <option value="{{ college.caption }}" {% if college.caption == contact.college %}selected{% endif %}>{{ college.caption }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Department</label>
+        <select class="form-select" id="department" name="department" {% if contact.contact_type == 'College' %}disabled{% endif %} required>
+            <option value="">Select Department</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" 
+                   id="course_coordinator" name="course_coordinator" 
+                   {% if contact.contact_type == 'Course Coordinator' %}checked{% endif %}>
+            <label class="form-check-label" for="course_coordinator">
+                Course Coordinator
+            </label>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">Prefix</label>
+            <input type="text" class="form-control" id="prefix" name="prefix" 
+                   pattern="[A-Za-z]{2,3}" 
+                   value="{{ contact.prefix }}"
+                   {% if contact.contact_type != 'Course Coordinator' %}disabled{% endif %}>
+        </div>
+        <div class="col">
+            <label class="form-label">Course</label>
+            <input type="text" class="form-control" id="course" name="course" 
+                   pattern="\d{3}"
+                   value="{{ contact.course }}"
+                   {% if contact.contact_type != 'Course Coordinator' %}disabled{% endif %}>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Level Type</label>
+        <select class="form-select" name="level_type">
+            <option value="subject viewer" {% if contact.level_type == 'subject viewer' %}selected{% endif %}>Subject Viewer</option>
+            <option value="report viewer" {% if contact.level_type == 'report viewer' %}selected{% endif %}>Report Viewer</option>
+        </select>
+    </div>
 
     <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
 
 <script>
-// Include the same JavaScript from add_contact.html but with initial values set
-document.addEventListener('DOMContentLoaded', () => {
-    // Pre-populate department based on existing college
-    const collegeSelect = document.getElementById('college');
-    collegeSelect.value = "{{ contact.college }}";
-    collegeSelect.dispatchEvent(new Event('change'));
-    
-    // Set initial department value after a short delay
-    setTimeout(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+        const collegeDepts = JSON.parse('{{ college_depts | safe }}');
+        const contactType = document.getElementById('contact_type');
+        const collegeSelect = document.getElementById('college');
         const deptSelect = document.getElementById('department');
-        deptSelect.value = "{{ contact.department }}";
-        deptSelect.dispatchEvent(new Event('change'));
-    }, 100);
-    
-    // Set course coordinator fields if applicable
-    {% if contact.contact_type == 'Course Coordinator' %}
-    document.getElementById('course_coordinator').checked = true;
-    document.getElementById('prefix').value = "{{ contact.prefix }}";
-    document.getElementById('course').value = "{{ contact.course }}";
-    {% endif %}
-});
+        const primaryContact = document.getElementById('primary_contact');
+        const courseCoordinator = document.getElementById('course_coordinator');
+
+        // Initialize form with existing values
+        function initializeForm() {
+            // Set initial college and trigger department load
+            collegeSelect.dispatchEvent(new Event('change'));
+            
+            // Set department after departments load
+            setTimeout(() => {
+                deptSelect.value = "{{ contact.department }}";
+                deptSelect.dispatchEvent(new Event('change'));
+            }, 100);
+
+            // Initialize course coordinator fields
+            if("{{ contact.contact_type }}" === "Course Coordinator") {
+                courseCoordinator.checked = true;
+                updateCourseFields();
+            }
+        }
+
+        function updateFormState() {
+            const isCollege = contactType.value === 'College';
+            
+            deptSelect.disabled = isCollege;
+            deptSelect.required = !isCollege;
+            primaryContact.disabled = !isCollege;
+            
+            if(isCollege) {
+                deptSelect.value = '';
+                primaryContact.value = 'no';
+            }
+            
+            updateDepartments();
+            updateCoordinatorFields();
+        }
+
+        function updateDepartments() {
+            deptSelect.innerHTML = '<option value="">Select Department</option>';
+            if(contactType.value === 'Department' && collegeSelect.value) {
+                const depts = collegeDepts[collegeSelect.value] || [];
+                depts.forEach(dept => {
+                    deptSelect.innerHTML += `<option value="${dept}">${dept}</option>`;
+                });
+            }
+        }
+
+        function updateCoordinatorFields() {
+            const hasDepartment = deptSelect.value !== '';
+            courseCoordinator.disabled = !hasDepartment;
+            if(!hasDepartment) courseCoordinator.checked = false;
+            updateCourseFields();
+        }
+
+        function updateCourseFields() {
+            const showFields = courseCoordinator.checked;
+            document.getElementById('prefix').disabled = !showFields;
+            document.getElementById('course').disabled = !showFields;
+        }
+
+        // Event listeners
+        contactType.addEventListener('change', updateFormState);
+        collegeSelect.addEventListener('change', updateDepartments);
+        deptSelect.addEventListener('change', updateCoordinatorFields);
+        courseCoordinator.addEventListener('change', updateCourseFields);
+
+        // Initial setup
+        updateFormState();
+        initializeForm();
+    });
 </script>
 {% endblock %}
