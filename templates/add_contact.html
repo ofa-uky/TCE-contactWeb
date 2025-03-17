@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Contact</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">LinkBlue</label>
+        <input type="text" class="form-control" name="linkblue" required>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" name="first_name" required>
+        </div>
+        <div class="col">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="last_name" required>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Contact Type</label>
+        <select class="form-select" id="contact_type" name="contact_type" required>
+            <option value="College">College</option>
+            <option value="Department">Department</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Primary Contact</label>
+        <select class="form-select" id="primary_contact" name="primary_contact">
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">College</label>
+        <select class="form-select" id="college" name="college" required>
+            <option value="">Select College</option>
+            {% for college in colleges %}
+            <option value="{{ college.caption }}">{{ college.caption }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Department</label>
+        <select class="form-select" id="department" name="department" required>
+            <option value="">Select Department</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" 
+                   id="course_coordinator" name="course_coordinator" disabled>
+            <label class="form-check-label" for="course_coordinator">
+                Course Coordinator
+            </label>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">Prefix</label>
+            <input type="text" class="form-control" id="prefix" name="prefix" 
+                   pattern="[A-Za-z]{2,3}" disabled>
+        </div>
+        <div class="col">
+            <label class="form-label">Course</label>
+            <input type="text" class="form-control" id="course" name="course" 
+                   pattern="\d{3}" disabled>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Level Type</label>
+        <select class="form-select" name="level_type">
+            <option value="subject viewer">Subject Viewer</option>
+            <option value="report viewer">Report Viewer</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const collegeDepts = JSON.parse({{ college_depts|tojson }});
+        const contactType = document.getElementById('contact_type');
+        const collegeSelect = document.getElementById('college');
+        const deptSelect = document.getElementById('department');
+        const primaryContact = document.getElementById('primary_contact');
+        const courseCoordinator = document.getElementById('course_coordinator');
+        
+        // Initial setup
+        updateFormState();
+        
+        // Event listeners
+        contactType.addEventListener('change', updateFormState);
+        collegeSelect.addEventListener('change', updateDepartments);
+        deptSelect.addEventListener('change', updateCoordinatorFields);
+        courseCoordinator.addEventListener('change', updateCourseFields);
+
+        function updateFormState() {
+            const isCollege = contactType.value === 'College';
+            
+            // Enable/disable department dropdown
+            deptSelect.disabled = isCollege;
+            deptSelect.required = !isCollege;
+            
+            // Handle primary contact
+            primaryContact.disabled = !isCollege;
+            if(!isCollege) primaryContact.value = 'no';
+            
+            // Reset department selection
+            if(isCollege) deptSelect.value = '';
+            
+            updateDepartments();
+            updateCoordinatorFields();
+        }
+
+        function updateDepartments() {
+            deptSelect.innerHTML = '<option value="">Select Department</option>';
+            
+            if(contactType.value === 'Department' && collegeSelect.value) {
+                const depts = collegeDepts[collegeSelect.value] || [];
+                depts.forEach(dept => {
+                    deptSelect.innerHTML += `<option value="${dept}">${dept}</option>`;
+                });
+            }
+        }
+
+        function updateCoordinatorFields() {
+            const hasDepartment = deptSelect.value !== '';
+            courseCoordinator.disabled = !hasDepartment;
+            if(!hasDepartment) courseCoordinator.checked = false;
+            updateCourseFields();
+        }
+
+        function updateCourseFields() {
+            const showFields = courseCoordinator.checked;
+            const prefixField = document.getElementById('prefix');
+            const courseField = document.getElementById('course');
+            
+            prefixField.disabled = !showFields;
+            courseField.disabled = !showFields;
+            prefixField.required = showFields;
+            courseField.required = false;
+            
+        }
+    });
+    </script>
+    {% endblock %}

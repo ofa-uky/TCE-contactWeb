@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Contacts</h1>
+<div class="mb-4">
+    <a href="/add" class="btn btn-primary">Add Contact</a>
+    <a href="/export" class="btn btn-secondary">Export CSV</a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <input type="text" id="searchInput" class="form-control" 
+                       placeholder="Search by name or LinkBlue...">
+            </div>
+            <div class="col-md-3">
+                <select id="filterType" class="form-select">
+                    <option value="">All Types</option>
+                    <option>College</option>
+                    <option>Department</option>
+                    <option>Course Coordinator</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="filterCollege" class="form-select">
+                    <option value="">All Colleges</option>
+                    {% for college in colleges|unique %}
+                    <option>{{ college.caption }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="filterPrimary" class="form-select">
+                    <option value="">All</option>
+                    <option value="Yes">Primary</option>
+                    <option value="No">Non-Primary</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table" id="contactsTable">
+    <thead class="table-light">
+        <tr>
+            <th>Name</th>
+            <th>LinkBlue</th>
+            <th>Type</th>
+            <th>College</th>
+            <th>Primary</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contact in contacts %}
+        <tr>
+            <td>{{ contact.first_name }} {{ contact.last_name }}</td>
+            <td>{{ contact.linkblue }}</td>
+            <td>{{ contact.contact_type }}</td>
+            <td>{{ contact.college }}</td>
+            <td>{{ 'Yes' if contact.primary_contact else 'No' }}</td>
+            <td>
+                <a href="/edit/{{ contact.id }}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="/delete/{{ contact.id }}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const filterType = document.getElementById('filterType');
+    const filterCollege = document.getElementById('filterCollege');
+    const filterPrimary = document.getElementById('filterPrimary');
+    const tableRows = document.querySelectorAll('#contactsTable tbody tr');
+
+    function filterContacts() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const typeFilter = filterType.value;
+        const collegeFilter = filterCollege.value;
+        const primaryFilter = filterPrimary.value;
+
+        tableRows.forEach(row => {
+            const name = row.cells[0].textContent.toLowerCase();
+            const linkblue = row.cells[1].textContent.toLowerCase();
+            const type = row.cells[2].textContent;
+            const college = row.cells[3].textContent;
+            const primary = row.cells[4].textContent;
+
+            const matchesSearch = name.includes(searchTerm) || linkblue.includes(searchTerm);
+            const matchesType = !typeFilter || type === typeFilter;
+            const matchesCollege = !collegeFilter || college === collegeFilter;
+            const matchesPrimary = !primaryFilter || primary === primaryFilter;
+
+            row.style.display = (matchesSearch && matchesType && matchesCollege && matchesPrimary) 
+                ? '' 
+                : 'none';
+        });
+    }
+
+    // Add event listeners
+    [searchInput, filterType, filterCollege, filterPrimary].forEach(element => {
+        element.addEventListener('input', filterContacts);
+        element.addEventListener('change', filterContacts);
+    });
+});
+</script>
+{% endblock %}
