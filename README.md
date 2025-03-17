@@ -12,6 +12,7 @@ A Flask web application for managing university contacts, replacing an Excel-bas
 - Course coordinator management
 
 ## File Structure
+```
 ├── app.py # Main application logic
 ├── contacts.csv # Generated contacts database
 ├── hierarchy.csv # University hierarchy data
@@ -22,6 +23,7 @@ A Flask web application for managing university contacts, replacing an Excel-bas
 │ └── edit_contact.html # Edit contact form
 └── static/
 └── script.js # Optional JavaScript helpers
+```
 
 ## Requirements
 - Python 3.x
