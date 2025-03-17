@@ -235,7 +235,13 @@ def edit_contact(contact_id):
 @app.route('/delete/<int:contact_id>')
 def delete_contact(contact_id):
     global contacts
+    # Remove the contact
     contacts = [c for c in contacts if c['id'] != contact_id]
+    
+    # Reassign sequential IDs
+    for index, contact in enumerate(contacts, start=1):
+        contact['id'] = index
+    
     save_contacts()
     return redirect(url_for('index'))
 

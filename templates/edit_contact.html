@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit Contact</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">LinkBlue</label>
+        <input type="text" class="form-control" name="linkblue" 
+               value="{{ contact.linkblue }}" required>
+    </div>
+    
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" name="first_name" 
+                   value="{{ contact.first_name }}" required>
+        </div>
+        <div class="col">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="last_name" 
+                   value="{{ contact.last_name }}" required>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Contact Type</label>
+        <select class="form-select" id="contact_type" name="contact_type" required>
+            <option value="College" {% if contact.contact_type == 'College' %}selected{% endif %}>College</option>
+            <option value="Department" {% if contact.contact_type == 'Department' %}selected{% endif %}>Department</option>
+        </select>
+    </div>
+
+    <!-- Include remaining form fields from add_contact.html with value population -->
+    <!-- Add JavaScript from add_contact.html for dynamic behavior -->
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<script>
+// Include the same JavaScript from add_contact.html but with initial values set
+document.addEventListener('DOMContentLoaded', () => {
+    // Pre-populate department based on existing college
+    const collegeSelect = document.getElementById('college');
+    collegeSelect.value = "{{ contact.college }}";
+    collegeSelect.dispatchEvent(new Event('change'));
+    
+    // Set initial department value after a short delay
+    setTimeout(() => {
+        const deptSelect = document.getElementById('department');
+        deptSelect.value = "{{ contact.department }}";
+        deptSelect.dispatchEvent(new Event('change'));
+    }, 100);
+    
+    // Set course coordinator fields if applicable
+    {% if contact.contact_type == 'Course Coordinator' %}
+    document.getElementById('course_coordinator').checked = true;
+    document.getElementById('prefix').value = "{{ contact.prefix }}";
+    document.getElementById('course').value = "{{ contact.course }}";
+    {% endif %}
+});
+</script>
+{% endblock %}
