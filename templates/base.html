@@ -11,3 +11,26 @@
     <script src="/static/script.js"></script>
 </body>
 </html>
+<style>
+    .sortable {
+        cursor: pointer;
+        position: relative;
+    }
+    
+    .sortable::after {
+        content: "↕";
+        margin-left: 5px;
+        position: absolute;
+        right: -15px;
+    }
+    
+    .sort-asc::after {
+        content: "↑";
+        color: #007bff;
+    }
+    
+    .sort-desc::after {
+        content: "↓";
+        color: #007bff;
+    }
+</style>
