@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const name = row.cells[0].textContent.toLowerCase();
             const linkblue = row.cells[1].textContent.toLowerCase();
             const type = row.cells[2].textContent;
-            const college = row.cells[3].textContent;
+            const college = row.cells[3].textContent.trim();
             const primary = row.cells[4].textContent;
 
             const matchesSearch = name.includes(searchTerm) || linkblue.includes(searchTerm);
