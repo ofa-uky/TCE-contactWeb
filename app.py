@@ -110,8 +110,8 @@ load_contacts()
 
 @app.route('/')
 def index():
-    unique_colleges = list({n['caption']: n for n in nodes if n['level'] == 2}.values())
-    return render_template('index.html', contacts=contacts)
+    unique_colleges = list({n['caption'] for n in nodes if n['level'] == 2})
+    return render_template('index.html', contacts=contacts, colleges=unique_colleges)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_contact():
