@@ -25,8 +25,8 @@
             <div class="col-md-3">
                 <select id="filterCollege" class="form-select">
                     <option value="">All Colleges</option>
-                    {% for college in colleges|unique %}
-                    <option>{{ college.caption }}</option>
+                    {% for college in colleges %}
+                    <option>{{ college }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -44,11 +44,12 @@
 <table class="table" id="contactsTable">
     <thead class="table-light">
         <tr>
-            <th>Name</th>
-            <th>LinkBlue</th>
-            <th>Type</th>
-            <th>College</th>
-            <th>Primary</th>
+            <th class="sortable" onclick="sortTable(0)">Name</th>
+            <th class="sortable" onclick="sortTable(1)">LinkBlue</th>
+            <th class="sortable" onclick="sortTable(2)">Type</th>
+            <th class="sortable" onclick="sortTable(3)">College</th>
+            <th class="sortable" onclick="sortTable(4)">Primary</th>
+            <th class="sortable" onclick="sortTable(5)">Department</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -60,6 +61,7 @@
             <td>{{ contact.contact_type }}</td>
             <td>{{ contact.college }}</td>
             <td>{{ 'Yes' if contact.primary_contact else 'No' }}</td>
+            <td>{% if contact.contact_type == 'College' %}All{% else %}{{ contact.department }}{% endif %}</td>
             <td>
                 <a href="/edit/{{ contact.id }}" class="btn btn-sm btn-warning">Edit</a>
                 <a href="/delete/{{ contact.id }}" class="btn btn-sm btn-danger">Delete</a>
@@ -89,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const type = row.cells[2].textContent;
             const college = row.cells[3].textContent.trim();
             const primary = row.cells[4].textContent;
+            const department = row.cells[5].textContent.trim();
+
 
             const matchesSearch = name.includes(searchTerm) || linkblue.includes(searchTerm);
             const matchesType = !typeFilter || type === typeFilter;
@@ -107,5 +111,53 @@ document.addEventListener('DOMContentLoaded', () => {
         element.addEventListener('change', filterContacts);
     });
 });
+</script>
+<script>
+let currentSortColumn = -1;
+let sortDirection = 1; // 1 for ascending, -1 for descending
+
+function sortTable(columnIndex) {
+    const table = document.getElementById('contactsTable');
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.rows);
+    
+    // Reset sort indicators
+    table.querySelectorAll('th').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+    });
+    
+    // Toggle sort direction if clicking the same column
+    if (currentSortColumn === columnIndex) {
+        sortDirection *= -1;
+    } else {
+        currentSortColumn = columnIndex;
+        sortDirection = 1;
+    }
+    
+    // Update visual indicators
+    const header = table.rows[0].cells[columnIndex];
+    header.classList.add(sortDirection === 1 ? 'sort-asc' : 'sort-desc');
+    
+    // Sort the rows
+    rows.sort((a, b) => {
+        const aValue = a.cells[columnIndex].textContent.trim().toLowerCase();
+        const bValue = b.cells[columnIndex].textContent.trim().toLowerCase();
+        if (columnIndex === 5) {
+        // Treat "All" as coming before actual department names
+        if (aValue === "all" && bValue !== "all") return -1 * sortDirection;
+        if (bValue === "all" && aValue !== "all") return 1 * sortDirection;
+    }
+        if (aValue < bValue) return -1 * sortDirection;
+        if (aValue > bValue) return 1 * sortDirection;
+        return 0;
+    });
+
+    // Reinsert sorted rows
+    while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+    rows.forEach(row => tbody.appendChild(row));
+    
+    // Reapply any active filters
+    filterContacts();
+}
 </script>
 {% endblock %}
