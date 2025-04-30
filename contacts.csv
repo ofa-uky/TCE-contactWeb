@@ -42,8 +42,8 @@ id,linkblue,first_name,last_name,primary_contact,contact_type,college,department
 41,jrwagn2,Jacqueline,McCuddy,No,Department,Engineering,Engineering,BAE,,Subject Viewer
 42,jfoley,Jessica,Ripley,Yes,College,Engineering,All,All,,Subject Viewer
 43,djka227,David,Kaiser,Yes,College,Fine Arts,All,All,,Subject Viewer
-44,jmfilk00,Joanne,Filkins,No,Department,Fine Arts,Fine Arts - Music,All,,Subject Viewer
-45,scsm242,Sarah,Smith,No,Department,Fine Arts,Fine Arts - Theatre Arts,All,,Subject Viewer
+44,jmfilk00,Joanne,Filkins,No,Department,Fine Arts,Fine Arts -  Music,All,,Subject Viewer
+45,scsm242,Sarah,Smith,No,Department,Fine Arts,Fine Arts -  Theatre Arts,All,,Subject Viewer
 46,mjpi235,Meghan,Pifer,No,Department,Education,Educational Policy Studies and Evaluatio,All,,Report Viewer
 47,khperr2,Kristen,Perry,No,Department,Graduate School,Graduate School,All,,Report Viewer
 48,rwzimm00,Ron,Zimmer,No,Department,Graduate School,Martin School of Public Administration,All,,Report Viewer
@@ -86,12 +86,12 @@ id,linkblue,first_name,last_name,primary_contact,contact_type,college,department
 85,cjkn225,Colleen,Knight,Yes,College,Arts and Sciences,All,All,,Subject Viewer
 86,rrbr222,Rachel,Deel,No,Course Coordinator,Office of the Provost,Office of the Provost,UK,125,Subject Viewer
 87,PCTA224,Paula,Tackett,No,Department,Fine Arts,School of Art and Visual Studies,All,,Report Viewer
-88,sth236,Susie,Thiel,No,Department,Fine Arts,Fine Arts - Theatre Arts,All,,Report Viewer
+88,sth236,Susie,Thiel,No,Department,Fine Arts,Fine Arts -  Theatre Arts,All,,Report Viewer
 89,RSH226,Rachel,Shane,No,College,Fine Arts,All,All,,Report Viewer
 90,RADAM3,Ruth,Adams,No,Department,Fine Arts,School of Art and Visual Studies,All,,Report Viewer
-91,agte224,Abby,Temple,No,Department,Fine Arts,Fine Arts - Music,All,,Report Viewer
+91,agte224,Abby,Temple,No,Department,Fine Arts,Fine Arts -  Music,All,,Report Viewer
 92,AYEF223,Alesia,Efflandt,No,Department,Fine Arts,Arts Administration,All,,Report Viewer
-93,cbarno2,Ben,Arnold,No,Department,Fine Arts,Fine Arts - Music,All,,Report Viewer
+93,cbarno2,Ben,Arnold,No,Department,Fine Arts,Fine Arts -  Music,All,,Report Viewer
 94,kgr283,Katherine,Gray,No,Department,Education,Educational Policy Studies and Evaluatio,All,,Report Viewer
 95,famc225,Faith,McNabb,No,Department,Education,STEM Education,All,,Report Viewer
 96,RCR234,Margaret,Rintamaa,No,College,Education,All,All,,Report Viewer
@@ -124,6 +124,6 @@ id,linkblue,first_name,last_name,primary_contact,contact_type,college,department
 123,yjo229,Joseph,Young,No,Department,Graduate School,Patterson School Of Diplomacy,All,,Subject Viewer
 124,mamo320,Matthew,Moore,No,College,Social Work,All,All,,Report Viewer
 125,jfdu227,Jackie,Duron,No,College,Social Work,All,All,,Report Viewer
-126,jnmacl2,James,MaclLeod,No,Department,"Ag, Food and Environment",Agriculture General,EQM,,Report Viewer
-127,cgad222,Chelsea,Harris ,No,College,Lewis Honors College,all,All,,Report Viewer
+126,jnmacl2,James,MaclLeod,No,Course Coordinator,"Ag, Food and Environment",Agriculture General,EQM,,Report Viewer
+127,cgad222,Chelsea,Harris ,No,College,Lewis Honors College,All,All,,Report Viewer
 128,abhijit,Abhijit,Patwardhan,No,Department,Engineering,Biomedical Engineering,All,,Report Viewer

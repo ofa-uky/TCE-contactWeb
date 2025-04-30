@@ -249,30 +249,41 @@ def delete_contact(contact_id):
 def export_contacts():
     output = []
     for contact in contacts:
-        if contact['contact_type'] == 'College' and contact['prefix'] == 'All':
+        # Reset variables for each contact
+        node = None
+        target_type = None
+
+        # Handle 'All' mappings
+        is_college_all = (contact['contact_type'] == 'College' 
+                         and contact['prefix'].upper() == 'ALL')
+        is_dept_all = (contact['contact_type'] == 'Department' 
+                      and contact['prefix'].upper() == 'ALL')
+
+        if is_college_all:
             node = find_node(contact['college'], 2)
             target_type = 'C4'
-        elif contact['contact_type'] == 'Department' and contact['prefix'] == 'All':
-            node = find_node(contact['department'], 3, contact['college'])
+        
+        elif is_dept_all:
+            dept_name = contact['department'].replace("Fine Arts - ", "")
+            node = find_node(dept_name, 3, contact['college'])
             target_type = 'D3'
+        
         else:
-            # Course Coordinator handling
+            # Course Coordinator logic
             dept_node = find_node(contact['department'], 3, contact['college'])
             if not dept_node:
-                print(f"⚠️ Department not found: {contact['department']} in {contact['college']}")
+                # get the department name from the current contact
+                department = contact['department']
+                print(f"Skipped {contact['linkblue']}: Department {department} not found")
                 continue
 
             if contact['course']:
-                # Handle specific course
                 prefix = contact['prefix'].strip().upper()
                 course_num = contact['course'].strip()
-                
-                # Match hierarchy's course_no formatting (flexible space handling)
                 course_pattern = re.compile(
-                    r'^' + re.escape(prefix) + r'\s+?' + re.escape(course_num) + r'$', 
+                    rf'^{re.escape(prefix)}\s+?{re.escape(course_num)}$', 
                     re.IGNORECASE
                 )
-                
                 course_node = next(
                     (n for n in nodes 
                      if n['level'] == 4 
@@ -280,18 +291,13 @@ def export_contacts():
                      and n['parent_id'] == dept_node['node_id']),
                     None
                 )
-                
                 if course_node:
                     output.append({
                         'source': course_node['node_id'],
                         'target': contact['linkblue'],
                         'targetType': 'CRS1'
                     })
-                else:
-                    print(f"🔍 Course not matched: {prefix} {course_num} in {dept_node['node_id']}")
-                    print(f"    Hierarchy courses: {[n['course_no'] for n in nodes if n['parent_id'] == dept_node['node_id']]}")
             else:
-                # Handle all courses with prefix
                 target_prefix = contact['prefix'].strip().upper()
                 for course_node in nodes:
                     if (course_node['level'] == 4 
@@ -303,9 +309,10 @@ def export_contacts():
                                 'target': contact['linkblue'],
                                 'targetType': 'CRS1'
                             })
-            continue
+            continue  # Skip remaining processing for course coordinators
 
-        if node:
+        # Only process college/department mappings here
+        if node and target_type:
             output.append({
                 'source': node['node_id'],
                 'target': contact['linkblue'],
@@ -321,6 +328,7 @@ def export_contacts():
         mimetype="text/csv",
         headers={"Content-disposition": f"attachment; filename={filename}"}
     )
+
 
 if __name__ == '__main__':
     app.run(debug=True)
