@@ -1,4 +1,4 @@
-id,linkblue,first_name,last_name,primary_contact,contact_type,college,department,course,prefix,level_type
+id,linkblue,first_name,last_name,primary_contact,contact_type,college,department,prefix,course,level_type
 1,ctande2,Carmen,Agouridis,Yes,College,"Ag, Food and Environment",All,All,,Subject Viewer
 2,jcwelc2,Jeff,Welch,No,College,Business & Economics,All,All,,Subject Viewer
 3,jdunn2,Jamie,Dunn,No,College,"Ag, Food and Environment",All,All,,Report Viewer
@@ -79,12 +79,12 @@ id,linkblue,first_name,last_name,primary_contact,contact_type,college,department
 78,eha334,Erin,Haynes,No,Department,Public Health,Dept Of Preventive Med & Envir,All,,Subject Viewer
 79,JFCOST0,Julia,Costich,No,Department,Public Health,"Department of Health, Behavior & Society",All,,Subject Viewer
 80,rdowd0,Ray,Dowd,Yes,College,Social Work,All,All,,Subject Viewer
-81,rrbr222,Rachel,Deel,Yes,Course Coordinator,Undergraduate Education,University Wide,UK,101,Subject Viewer
-82,rrbr222,Rachel,Deel,No,Course Coordinator,Undergraduate Education,University Wide,UK,201,Subject Viewer
+81,rrbr222,Rachel,Deel,Yes,Course Coordinator,Office of the Provost,Office of the Provost,UK,101,Subject Viewer
+82,rrbr222,Rachel,Deel,No,Course Coordinator,Office of the Provost,Office of the Provost,UK,201,Subject Viewer
 83,amli227,Anthony,Limperos,No,Department,Communication and Information,Communication,All,,Report Viewer
 84,amli227,Anthony,Limperos,No,Department,Communication and Information,Communication and Information Studies,CI,,Report Viewer
 85,cjkn225,Colleen,Knight,Yes,College,Arts and Sciences,All,All,,Subject Viewer
-86,rrbr222,Rachel,Deel,No,Course Coordinator,Undergraduate Education,University Wide,UK,125,Subject Viewer
+86,rrbr222,Rachel,Deel,No,Course Coordinator,Office of the Provost,Office of the Provost,UK,125,Subject Viewer
 87,PCTA224,Paula,Tackett,No,Department,Fine Arts,School of Art and Visual Studies,All,,Report Viewer
 88,sth236,Susie,Thiel,No,Department,Fine Arts,Fine Arts - Theatre Arts,All,,Report Viewer
 89,RSH226,Rachel,Shane,No,College,Fine Arts,All,All,,Report Viewer
