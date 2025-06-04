@@ -1,0 +1,70 @@
+{
+  "longest_gap_days": 11,
+  "longest_gap_start": "2024-12-19",
+  "longest_gap_end": "2024-12-30",
+  "previous_course": "WRD612-201-2025010",
+  "next_course": "A-S399-010-2025020",
+  "previous_term": "Fall 2024",
+  "next_term": "Winter 2024",
+  "total_gaps_found": 6,
+  "total_gap_days": 25,
+  "average_gap_days": 4.2,
+  "all_gaps": [
+    {
+      "gap_start": "2024-07-25T00:00:00",
+      "gap_end": "2024-07-29T00:00:00",
+      "duration_days": 4,
+      "previous_course": "MD838-031-2025010",
+      "next_course": "MD831-001-2025010",
+      "previous_term": "Fall 2024",
+      "next_term": "Fall 2024"
+    },
+    {
+      "gap_start": "2024-08-22T00:00:00",
+      "gap_end": "2024-08-26T00:00:00",
+      "duration_days": 4,
+      "previous_course": "PAS671-201-2025010",
+      "next_course": "MD827-001-2025010",
+      "previous_term": "Fall 2024",
+      "next_term": "Fall 2024"
+    },
+    {
+      "gap_start": "2024-12-19T00:00:00",
+      "gap_end": "2024-12-30T00:00:00",
+      "duration_days": 11,
+      "previous_course": "WRD612-201-2025010",
+      "next_course": "A-S399-010-2025020",
+      "previous_term": "Fall 2024",
+      "next_term": "Winter 2024"
+    },
+    {
+      "gap_start": "2025-01-09T00:00:00",
+      "gap_end": "2025-01-13T00:00:00",
+      "duration_days": 4,
+      "previous_course": "WRD111-230-2025020",
+      "next_course": "PHS790-008-2025010",
+      "previous_term": "Winter 2024",
+      "next_term": "Fall 2024"
+    },
+    {
+      "gap_start": "2025-06-15T00:00:00",
+      "gap_end": "2025-06-16T00:00:00",
+      "duration_days": 1,
+      "previous_course": "SPA202-210-2025050",
+      "next_course": "AAD521-210-2025050",
+      "previous_term": "Summer 2025",
+      "next_term": "Summer 2025"
+    },
+    {
+      "gap_start": "2025-07-06T00:00:00",
+      "gap_end": "2025-07-07T00:00:00",
+      "duration_days": 1,
+      "previous_course": "UK150-713-2025050",
+      "next_course": "A&S306-210-2025050",
+      "previous_term": "Summer 2025",
+      "next_term": "Summer 2025"
+    }
+  ],
+  "total_evaluation_periods": 28357,
+  "evaluation_date_range": "2024-07-15 to 2025-08-21"
+}

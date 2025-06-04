@@ -1,0 +1,5 @@
+start_date,end_date,duration_hours,duration_days,maintenance_type
+2025-01-09 00:01:00,2025-01-12 23:59:00,96.0,4.0,Significant Update
+2025-06-15 00:01:00,2025-06-15 23:59:00,24.0,1.0,Standard Maintenance
+2025-07-06 00:01:00,2025-07-06 23:59:00,24.0,1.0,Standard Maintenance
+2025-08-21 00:01:00,2025-12-31 23:59:59,3191.9997222222223,132.99998842592592,Major System Upgrade
